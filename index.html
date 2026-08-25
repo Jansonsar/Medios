@@ -104,7 +104,34 @@
   .circuit-node.current { border-color:var(--stamp-red); box-shadow:0 0 0 3px rgba(163,39,29,0.25); animation: node-pulse 1.2s ease-in-out infinite; }
   @keyframes node-pulse { 0%,100%{opacity:1;} 50%{opacity:0.45;} }
 
-  /* ---------- JUEGO 2 · Duelo de lenguajes (versus) ---------- */
+  /* ---------- JUEGO 2 · Filtro de formatos (swipe sí/no) ---------- */
+  .swipe-stack { position:relative; height:150px; margin-bottom:16px; display:flex; align-items:center; justify-content:center; }
+  .swipe-card { width:210px; max-width:80%; background:#fff; border:3px solid var(--gold); border-radius:14px; padding:20px 14px 16px; text-align:center; box-shadow:0 6px 14px rgba(0,0,0,0.25); cursor:grab; touch-action:none; user-select:none; transition: transform 0.25s ease, opacity 0.25s ease, border-color 0.2s; position:relative; }
+  .swipe-card:active { cursor:grabbing; }
+  .swipe-card .sw-icon { font-size:2.5rem; display:block; margin-bottom:8px; }
+  .swipe-card .sw-label { font-family: var(--font-type); font-weight:700; font-size:0.92rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink); }
+  .swipe-card.no-drag-transition { transition:none; }
+  .swipe-card.fly-right { transform:translateX(280px) rotate(20deg) !important; opacity:0; }
+  .swipe-card.fly-left { transform:translateX(-280px) rotate(-20deg) !important; opacity:0; }
+  .swipe-card.shake { animation: spark 0.4s; border-color:var(--stamp-red); }
+  .swipe-hint { position:absolute; top:8px; font-family: var(--font-type); font-weight:900; font-size:0.72rem; letter-spacing:1.5px; padding:3px 9px; border-radius:4px; border:2px solid; opacity:0; transition:opacity 0.1s; pointer-events:none; }
+  .swipe-hint.si { right:8px; color:var(--stamp-green); border-color:var(--stamp-green); transform:rotate(8deg); }
+  .swipe-hint.no { left:8px; color:var(--stamp-red); border-color:var(--stamp-red); transform:rotate(-8deg); }
+
+  .swipe-actions { display:flex; gap:14px; justify-content:center; margin-bottom:10px; }
+  .swipe-btn { font-family: var(--font-type); font-weight:700; font-size:0.76rem; letter-spacing:0.5px; text-transform:uppercase; padding:11px 18px; border-radius:30px; cursor:pointer; border:2px solid; background:#fff; transition: transform 0.15s, filter 0.15s; }
+  .swipe-btn.reject { color:var(--stamp-red); border-color:var(--stamp-red); }
+  .swipe-btn.accept { color:var(--stamp-green); border-color:var(--stamp-green); }
+  .swipe-btn:hover { transform:translateY(-2px); }
+  .swipe-btn:active { transform:scale(0.96); }
+  .swipe-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+
+  .swipe-why { font-family: var(--font-serif); font-size:0.85rem; line-height:1.55; padding:10px 12px; border-radius:8px; margin-top:2px; display:none; }
+  .swipe-why.show { display:block; animation: dropIn 0.25s ease; }
+  .swipe-why.ok { background:rgba(47,82,51,0.1); color:var(--stamp-green); }
+  .swipe-why.bad { background:rgba(163,39,29,0.1); color:var(--stamp-red); }
+
+  /* ---------- JUEGO 2 antiguo (sin usar, se deja por compatibilidad de estilos) ---------- */
   .duel-arena { display:flex; align-items:stretch; gap:10px; margin-bottom:6px; }
   .duel-card { flex:1 1 0; background:#fff; border:3px solid var(--gold); border-radius:12px; padding:18px 10px 14px; text-align:center; cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,0.2); transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s, opacity 0.2s; position:relative; }
   .duel-card:hover { transform:translateY(-2px); }
@@ -288,15 +315,40 @@
   footer.note { text-align:center; color:#8a7a5f; font-family: var(--font-type); font-size:0.68rem; letter-spacing:0.5px; margin-top:30px; }
 
   /* ---------- INTRO / BRIEFING ---------- */
-  .briefing-icon { font-size:2.4rem; text-align:center; margin-bottom:6px; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.5)); }
+  .briefing-icon-wrap { position:relative; width:70px; height:70px; margin:0 auto 10px; }
+  .briefing-icon { font-size:2.4rem; text-align:center; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.5)); }
+  .briefing-icon-wrap .spark { position:absolute; width:16px; height:3px; background:var(--gold); border-radius:2px; opacity:0.8; }
+  .briefing-icon-wrap .spark.s1 { top:6px; left:-22px; transform:rotate(-35deg); }
+  .briefing-icon-wrap .spark.s2 { top:22px; left:-30px; transform:rotate(15deg); width:11px; }
+  .briefing-icon-wrap .spark.s3 { top:6px; right:-22px; transform:rotate(35deg); }
+  .briefing-icon-wrap .spark.s4 { top:22px; right:-30px; transform:rotate(-15deg); width:11px; }
   .briefing-title { font-family: var(--font-serif); font-size:1.35rem; text-align:center; margin:0 0 4px; color:var(--ink); }
   .briefing-sub { font-family: var(--font-type); font-size:0.7rem; letter-spacing:1.5px; text-transform:uppercase; text-align:center; color:var(--stamp-red); margin-bottom:18px; }
   .briefing-text { font-size:0.95rem; line-height:1.7; color:var(--ink); margin-bottom:14px; }
   .briefing-text strong { color:var(--stamp-green); }
   .briefing-examples { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:16px 0 20px; }
   .briefing-chip { font-family: var(--font-type); font-size:0.72rem; background:#f3ecd8; border:1px solid #c9b98d; padding:6px 12px; border-radius:20px; color:var(--ink-soft); }
+
+  .briefing-channels { display:flex; flex-wrap:wrap; justify-content:center; gap:18px 22px; margin:8px 0 20px; }
+  .briefing-channel { display:flex; flex-direction:column; align-items:center; gap:7px; width:76px; }
+  .briefing-channel .bc-badge { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.7rem; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5), 0 3px 8px rgba(0,0,0,0.25); }
+  .briefing-channel .bc-label { font-family: var(--font-type); font-size:0.62rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; text-align:center; }
+  .bc-badge.bc-imagen { background:#cfe0c2; }
+  .bc-badge.bc-sonido { background:#dcd2ec; }
+  .bc-badge.bc-texto  { background:#ecdfb8; }
+  .bc-badge.bc-movimiento { background:#c6d8ea; }
+  .bc-label.bc-imagen { color:#3d6b2a; }
+  .bc-label.bc-sonido { color:#5b4a8a; }
+  .bc-label.bc-texto  { color:#8a6a1e; }
+  .bc-label.bc-movimiento { color:#2c5a7d; }
+
+  .briefing-callout { position:relative; display:flex; align-items:center; gap:12px; background:#f0dfae; border:1px solid #d9b979; border-radius:10px; padding:16px 16px 16px 14px; margin:8px 0 22px; transform:rotate(-0.6deg); box-shadow:0 6px 14px rgba(0,0,0,0.2); }
+  .briefing-callout .co-icon { font-size:1.5rem; flex:0 0 auto; }
+  .briefing-callout p { margin:0; font-family: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive; font-size:1.05rem; line-height:1.4; color:#3a2f14; }
+  .briefing-callout::after { content:""; position:absolute; left:50%; bottom:-9px; transform:translateX(-50%) rotate(-2deg); width:70px; height:18px; background:rgba(150,160,140,0.55); border:1px solid rgba(120,130,110,0.4); }
+
   .briefing-actions { display:flex; justify-content:center; margin-top:20px; }
-  .btn-start { font-family: var(--font-type); background:var(--stamp-green); color:#f1e6c8; border:none; padding:13px 26px; border-radius:3px; font-weight:700; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:filter 0.2s; box-shadow:0 6px 14px rgba(0,0,0,0.35); }
+  .btn-start { font-family: var(--font-type); background:var(--stamp-green); color:#f1e6c8; border:none; padding:13px 26px; border-radius:3px; font-weight:700; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:filter 0.2s; box-shadow:0 6px 14px rgba(0,0,0,0.35); display:inline-flex; align-items:center; gap:9px; }
   .btn-start:hover { filter:brightness(1.15); }
   .btn-start:active { transform: scale(0.98); }
 
@@ -945,7 +997,7 @@
   }
 
   // ==================================================================
-  // JUEGO 2 · Duelo de lenguajes (dos formatos compiten, uno gana)
+  // JUEGO 2 · Filtro de formatos (desliza cada propuesta: sí sirve / no sirve)
   // ==================================================================
   function buildSintonizador(zone, autoVerify){
     const ROUNDS = [
@@ -969,97 +1021,139 @@
         wrong:   { icon: "📈", label: "Infografía", why: "Resume datos en íconos y texto; no puede mostrar comportamiento real en movimiento." } }
     ];
 
-    let round = 0;
-    let finished = false;
-    let streak = 0;
+    // Cada escena se parte en 2 tarjetas (una correcta y una incorrecta), en orden aleatorio.
+    const DECK = [];
+    ROUNDS.forEach((r, sceneIdx) => {
+      const pair = Math.random() < 0.5 ? [r.wrong, r.correct] : [r.correct, r.wrong];
+      pair.forEach(item => {
+        DECK.push({
+          sceneIdx,
+          scenario: r.scenario,
+          icon: item.icon,
+          label: item.label,
+          why: item.why,
+          expected: item === r.correct ? "si" : "no"
+        });
+      });
+    });
 
-    function duelStrip(){
+    let cardIdx = 0;
+    let finished = false;
+    let locked = false;
+
+    function progressStrip(){
+      const currentScene = Math.min(Math.floor(cardIdx / 2), ROUNDS.length - 1);
       const nodes = ROUNDS.map((_, i) => {
         let cls = "circuit-node";
-        if (i < round) cls += " lit";
-        else if (i === round) cls += " current";
+        if (i < currentScene) cls += " lit";
+        else if (i === currentScene) cls += " current";
         return `<span class="${cls}"></span>`;
       }).join("");
       return `<div class="circuit-strip">${nodes}</div>`;
     }
 
-    function renderRound(){
-      const r = ROUNDS[round];
-      const showCorrectFirst = Math.random() < 0.5;
-      const left = showCorrectFirst ? r.correct : r.wrong;
-      const right = showCorrectFirst ? r.wrong : r.correct;
-      let locked = false;
+    function renderCard(){
+      const card = DECK[cardIdx];
+      locked = false;
 
       zone.innerHTML = `
-        ${duelStrip()}
-        <div class="round-counter">Duelo ${round + 1} / ${ROUNDS.length}</div>
-        <p class="round-scenario">"${r.scenario}"</p>
-        <div class="duel-arena" id="duel-arena">
-          <button type="button" class="duel-card" data-side="left">
-            <span class="d-icon">${left.icon}</span>
-            <span class="d-label">${left.label}</span>
-            <div class="duel-why">${left.why}</div>
-          </button>
-          <span class="duel-vs">VS</span>
-          <button type="button" class="duel-card" data-side="right">
-            <span class="d-icon">${right.icon}</span>
-            <span class="d-label">${right.label}</span>
-            <div class="duel-why">${right.why}</div>
-          </button>
+        ${progressStrip()}
+        <div class="round-counter">Propuesta ${cardIdx + 1} / ${DECK.length}</div>
+        <p class="round-scenario">"${card.scenario}"</p>
+        <div class="swipe-stack">
+          <div class="swipe-card" id="swipe-card">
+            <span class="swipe-hint si">SÍ SIRVE</span>
+            <span class="swipe-hint no">NO SIRVE</span>
+            <span class="sw-icon">${card.icon}</span>
+            <span class="sw-label">${card.label}</span>
+          </div>
         </div>
-        <div class="round-feedback" id="round-feedback"></div>
+        <div class="swipe-actions">
+          <button type="button" class="swipe-btn reject" id="btn-no">❌ No sirve</button>
+          <button type="button" class="swipe-btn accept" id="btn-si">✅ Sí sirve</button>
+        </div>
+        <div class="swipe-why" id="swipe-why"></div>
       `;
 
-      const leftCard = zone.querySelector('[data-side="left"]');
-      const rightCard = zone.querySelector('[data-side="right"]');
-      const feedback = zone.querySelector("#round-feedback");
+      const cardEl = zone.querySelector("#swipe-card");
+      const hintSi = cardEl.querySelector(".swipe-hint.si");
+      const hintNo = cardEl.querySelector(".swipe-hint.no");
+      const btnSi = zone.querySelector("#btn-si");
+      const btnNo = zone.querySelector("#btn-no");
+      const whyBox = zone.querySelector("#swipe-why");
 
-      function pick(card, item, isCorrect, otherCard){
+      function answer(choice){
         if (locked) return;
-        if (isCorrect) {
+
+        if (choice === card.expected) {
           locked = true;
-          streak++;
-          playTone("ok", streak);
-          card.classList.add("correct");
-          otherCard.classList.add("faded");
+          playTone("ok", 0);
+          btnSi.disabled = true;
+          btnNo.disabled = true;
+          cardEl.classList.add(choice === "si" ? "fly-right" : "fly-left");
 
-          const streakTag = streak >= 2 ? ` &nbsp;🔥 Racha: ${streak}` : "";
-          feedback.innerHTML = "🟢 ¡Ganador correcto! " + streakTag;
-          feedback.className = "round-feedback ok show";
+          whyBox.textContent = "🟢 " + card.why;
+          whyBox.className = "swipe-why ok show";
 
-          const advanceBtn = document.createElement("button");
-          advanceBtn.type = "button";
-          advanceBtn.className = "btn-phase";
-          advanceBtn.style.marginTop = "14px";
-          advanceBtn.textContent = (round + 1 < ROUNDS.length) ? "Siguiente duelo →" : "Ver resultado final →";
-          advanceBtn.addEventListener("click", () => {
-            round++;
-            if (round < ROUNDS.length) renderRound();
-            else renderTrophy();
-          });
-          zone.appendChild(advanceBtn);
+          setTimeout(() => {
+            cardIdx++;
+            if (cardIdx >= DECK.length) renderTrophy();
+            else renderCard();
+          }, 700);
         } else {
-          streak = 0;
           playTone("fail", 0);
-          card.classList.remove("wrong");
-          void card.offsetWidth;
-          card.classList.add("wrong");
-          feedback.textContent = "🔴 Ese formato pierde este duelo. Lee por qué y elige de nuevo.";
-          feedback.className = "round-feedback fail show";
+          cardEl.classList.remove("shake");
+          void cardEl.offsetWidth;
+          cardEl.classList.add("shake");
+          whyBox.textContent = "🔴 Esa no es la decisión correcta para este caso. Piénsalo de nuevo.";
+          whyBox.className = "swipe-why bad show";
+          setTimeout(() => cardEl.classList.remove("shake"), 350);
         }
       }
 
-      leftCard.addEventListener("click", () => pick(leftCard, left, left === r.correct, rightCard));
-      rightCard.addEventListener("click", () => pick(rightCard, right, right === r.correct, leftCard));
+      btnSi.addEventListener("click", () => answer("si"));
+      btnNo.addEventListener("click", () => answer("no"));
+
+      // Arrastre táctil/mouse opcional, además de los botones.
+      let dragging = false, startX = 0, dx = 0;
+      cardEl.addEventListener("pointerdown", (e) => {
+        if (locked) return;
+        dragging = true;
+        startX = e.clientX;
+        cardEl.setPointerCapture(e.pointerId);
+        cardEl.classList.add("no-drag-transition");
+      });
+      cardEl.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        dx = e.clientX - startX;
+        cardEl.style.transform = `translateX(${dx}px) rotate(${dx / 14}deg)`;
+        hintSi.style.opacity = dx > 20 ? Math.min(1, dx / 90) : 0;
+        hintNo.style.opacity = dx < -20 ? Math.min(1, -dx / 90) : 0;
+      });
+      function endDrag(){
+        if (!dragging) return;
+        dragging = false;
+        cardEl.classList.remove("no-drag-transition");
+        if (dx > 90) { answer("si"); }
+        else if (dx < -90) { answer("no"); }
+        else {
+          cardEl.style.transform = "";
+          hintSi.style.opacity = 0;
+          hintNo.style.opacity = 0;
+        }
+        dx = 0;
+      }
+      cardEl.addEventListener("pointerup", endDrag);
+      cardEl.addEventListener("pointercancel", endDrag);
     }
 
     function renderTrophy(){
       finished = true;
       zone.innerHTML = `
-        ${duelStrip()}
+        ${progressStrip()}
         <div class="trophy-box">
           <div class="t-icon">🏆</div>
-          <p>¡Todos los duelos resueltos! Has comprobado que el lenguaje audiovisual no se reduce al video: cada formato gana cuando el contexto lo necesita.</p>
+          <p>¡Filtro completado! Has comprobado que el lenguaje audiovisual no se reduce al video: cada formato sirve cuando el contexto lo pide.</p>
           <button type="button" class="btn-phase" id="trophy-continue">Registrar hallazgo en el expediente →</button>
         </div>
       `;
@@ -1068,12 +1162,12 @@
       });
     }
 
-    renderRound();
+    renderCard();
 
     return {
       check(){
         if (finished) return { success: true };
-        return { success: false, hint: "Todavía hay duelos sin resolver. Elige el formato que gana en cada situación antes de cerrar el expediente." };
+        return { success: false, hint: "Todavía te quedan propuestas por filtrar. Decide si cada formato sirve o no para su situación antes de cerrar el expediente." };
       }
     };
   }
@@ -1235,10 +1329,10 @@
       build: buildSeleccionRecursos
     },
     {
-      code: "N.º 02", principle: "Diversidad de lenguajes", title: "El duelo de lenguajes",
-      declaration: "Circulan apuestas en la sala de archivo sobre qué formato audiovisual 'siempre gana'. Alguien insiste en que 'todo esto es lo mismo, al final es contenido en pantalla'. Hay que enfrentar los formatos en duelos directos, caso por caso, para demostrar que no es así.",
-      evidenceLabel: "Evidencia C-02 · Ring de duelos audiovisuales",
-      instruction: "Lee cada situación y toca el formato que gana el duelo frente a su rival. Si fallas, lee el porqué y vuelve a intentarlo.",
+      code: "N.º 02", principle: "Diversidad de lenguajes", title: "El filtro de formatos",
+      declaration: "Te llegan propuestas de formato para distintas situaciones, pero no todas encajan. Hay que revisarlas una por una y decidir si sirven o no.",
+      evidenceLabel: "Evidencia C-02 · Mazo de propuestas de formato",
+      instruction: "Lee la situación y desliza la tarjeta: a la derecha si el formato sí sirve, a la izquierda si no. También puedes usar los botones ✅ / ❌.",
       correctNote: "Lo audiovisual no se reduce al video: fotografía, podcast, infografía, presentación, animación y video son lenguajes distintos, cada uno activando una combinación distinta de canales sensoriales según lo que el estudiante realmente necesita percibir.",
       build: buildSintonizador
     },
@@ -1348,17 +1442,44 @@
   function renderIntro(){
     const introHtml = `
       <div class="folder">
-        <div class="briefing-icon">🎬</div>
+        <div class="briefing-icon-wrap">
+          <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+          <div class="briefing-icon">🎬</div>
+        </div>
         <h2 class="briefing-title">¿Qué son los Medios Audiovisuales?</h2>
 
-        <p class="briefing-text">Son cualquier forma de comunicación que combina imagen y sonido para transmitir un mensaje, usando <strong>dos canales sensoriales a la vez</strong>: el visual y el auditivo. Eso los hace poderosos, pero también fáciles de arruinar si se satura un canal o se desordena el ritmo.</p>
+        <p class="briefing-text">Son cualquier forma de comunicación que combina <strong>imagen y sonido</strong> para transmitir un mensaje, usando <strong>dos canales sensoriales a la vez</strong>: el visual y el auditivo. Eso los hace poderosos, pero también fáciles de arruinar si se satura un canal o se desordena el ritmo.</p>
+
+        <div class="briefing-channels">
+          <div class="briefing-channel">
+            <div class="bc-badge bc-imagen">📷</div>
+            <div class="bc-label bc-imagen">Imagen</div>
+          </div>
+          <div class="briefing-channel">
+            <div class="bc-badge bc-sonido">🎙️</div>
+            <div class="bc-label bc-sonido">Sonido</div>
+          </div>
+          <div class="briefing-channel">
+            <div class="bc-badge bc-texto">✏️</div>
+            <div class="bc-label bc-texto">Texto</div>
+          </div>
+          <div class="briefing-channel">
+            <div class="bc-badge bc-movimiento">🎞️</div>
+            <div class="bc-label bc-movimiento">Movimiento</div>
+          </div>
+        </div>
 
         <p class="briefing-text">En los <strong>8 expedientes</strong> siguientes vas a encontrar piezas audiovisuales con errores reales de diseño instruccional, e investigar cómo corregirlas.</p>
 
         <p class="briefing-text">Este proyecto convierte esa teoría en algo que se pone a prueba y se siente, no solo se memoriza.</p>
 
+        <div class="briefing-callout">
+          <span class="co-icon">🔍</span>
+          <p>¿Qué hay detrás de un recurso audiovisual cuando su propósito es enseñar?</p>
+        </div>
+
         <div class="briefing-actions">
-          <button type="button" class="btn-start" id="start-btn">Abrir el primer expediente →</button>
+          <button type="button" class="btn-start" id="start-btn">📁 Abrir el primer expediente →</button>
         </div>
       </div>
     `;
