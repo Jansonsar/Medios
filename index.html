@@ -75,10 +75,13 @@
   .round-counter { font-family: var(--font-type); font-size:0.68rem; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink-soft); margin-bottom:10px; }
   .round-scenario { font-family: var(--font-serif); font-style:italic; font-size:0.98rem; line-height:1.55; color:var(--ink); background:#f3ecd8; border-left:4px solid var(--gold); padding:12px 14px; border-radius:0 6px 6px 0; margin-bottom:16px; }
 
-  .connector-grid, .trap-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(96px, 1fr)); gap:10px; margin-bottom:14px; }
-  .connector-btn, .trap-card { position:relative; font-family: var(--font-type); background:#fff; border:2px solid var(--gold); border-radius:8px; padding:14px 8px 10px; text-align:center; font-size:0.72rem; font-weight:700; color:var(--ink); cursor:pointer; box-shadow:0 3px 6px rgba(0,0,0,0.2); transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s; }
+  .connector-grid, .trap-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(96px, 1fr)); gap:12px; margin-bottom:14px; }
+  .connector-btn, .trap-card { position:relative; font-family: var(--font-type); background:var(--paper); border:2px solid var(--gold); border-radius:3px; padding:16px 8px 10px; text-align:center; font-size:0.72rem; font-weight:700; color:var(--ink); cursor:pointer; box-shadow:0 4px 8px rgba(0,0,0,0.28); transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s; }
+  .connector-btn::before, .trap-card::before { content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:11px; height:11px; border-radius:50%; background: radial-gradient(circle at 35% 30%, var(--pin-shine), var(--pin-red) 70%); box-shadow:0 2px 3px rgba(0,0,0,0.5); }
+  .connector-btn:nth-child(2n), .trap-card:nth-child(2n) { transform:rotate(-1.1deg); }
+  .connector-btn:nth-child(3n), .trap-card:nth-child(3n) { transform:rotate(1.3deg); }
   .connector-btn .c-icon, .trap-card .c-icon { display:block; font-size:1.5rem; margin-bottom:4px; }
-  .connector-btn:hover, .trap-card:hover { transform:translateY(-2px); }
+  .connector-btn:hover, .trap-card:hover { transform:translateY(-2px) rotate(0deg); }
   .connector-btn:disabled { cursor:default; opacity:0.55; }
 
   .connector-btn.wrong, .trap-card.wrong { border-color:var(--stamp-red); animation: spark 0.4s; }
@@ -118,6 +121,11 @@
   .swipe-hint.si { right:8px; color:var(--stamp-green); border-color:var(--stamp-green); transform:rotate(8deg); }
   .swipe-hint.no { left:8px; color:var(--stamp-red); border-color:var(--stamp-red); transform:rotate(-8deg); }
 
+  .swipe-stamp { position:absolute; top:38%; left:50%; font-family: var(--font-type); font-weight:900; font-size:1.05rem; letter-spacing:2px; padding:6px 14px; border:4px double; border-radius:4px; text-transform:uppercase; opacity:0; pointer-events:none; transform:translate(-50%,-50%) rotate(-14deg) scale(1.4); transition: opacity 0.18s ease, transform 0.18s ease; z-index:5; }
+  .swipe-stamp.show { opacity:0.92; transform:translate(-50%,-50%) rotate(-14deg) scale(1); }
+  .swipe-stamp.ok { color:var(--stamp-green); border-color:var(--stamp-green); }
+  .swipe-stamp.bad { color:var(--stamp-red); border-color:var(--stamp-red); }
+
   .swipe-actions { display:flex; gap:14px; justify-content:center; margin-bottom:10px; }
   .swipe-btn { font-family: var(--font-type); font-weight:700; font-size:0.76rem; letter-spacing:0.5px; text-transform:uppercase; padding:11px 18px; border-radius:30px; cursor:pointer; border:2px solid; background:#fff; transition: transform 0.15s, filter 0.15s; }
   .swipe-btn.reject { color:var(--stamp-red); border-color:var(--stamp-red); }
@@ -150,7 +158,8 @@
   /* ---------- JUEGO 3 · Línea de tiempo (arrastrar a la época) ---------- */
   .timeline-scroll { overflow-x:auto; padding-bottom:8px; margin-bottom:6px; -webkit-overflow-scrolling:touch; }
   .timeline-strip { display:flex; gap:8px; min-width:min-content; }
-  .era-box { flex:1 1 112px; min-width:104px; background:#f3ecd8; border:3px dashed #5c4a33; border-radius:10px; padding:8px 6px 10px; text-align:center; transition: border-color 0.2s, background 0.2s; }
+  .era-box { position:relative; flex:1 1 112px; min-width:104px; background:#f3ecd8; border:3px dashed #5c4a33; border-radius:10px; padding:8px 6px 10px; text-align:center; transition: border-color 0.2s, background 0.2s; }
+  .era-box::before { content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:11px; height:11px; border-radius:50%; background: radial-gradient(circle at 35% 30%, var(--pin-shine), var(--pin-red) 70%); box-shadow:0 2px 3px rgba(0,0,0,0.5); }
   .era-box.era-full { border-style:solid; border-color:var(--stamp-green); background: rgba(230,255,230,0.85); }
   .era-box-icon { font-size:1.25rem; margin-bottom:2px; }
   .era-box-label { font-family: var(--font-type); font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; color:var(--ink-soft); line-height:1.25; margin-bottom:8px; min-height:2.3em; }
@@ -900,7 +909,7 @@
       zone.innerHTML = `
         <div class="round-counter">Panel de recursos · toca cualquier tarjeta</div>
         <div class="trap-grid" id="trap-grid">${resourceGrid("trap-card")}</div>
-        <div class="trap-msg" id="trap-msg">⚠️ ¡ERROR CONCEPTUAL! Ningún recurso es superior a otro por sí solo. Su eficacia depende 100% del Objetivo de Aprendizaje.</div>
+        <div class="trap-msg" id="trap-msg">⚠️ ¡PISTA FALSA! No existe "el recurso perfecto" — caíste en la trampa más común del expediente. Cada recurso vale según el objetivo de aprendizaje que tengas enfrente, nunca por sí solo.</div>
         <button type="button" class="btn-phase hidden" id="trap-continue">Continuar a los 7 casos →</button>
       `;
 
@@ -1064,6 +1073,7 @@
           <div class="swipe-card" id="swipe-card">
             <span class="swipe-hint si">SÍ SIRVE</span>
             <span class="swipe-hint no">NO SIRVE</span>
+            <span class="swipe-stamp" id="swipe-stamp"></span>
             <span class="sw-icon">${card.icon}</span>
             <span class="sw-label">${card.label}</span>
           </div>
@@ -1078,6 +1088,7 @@
       const cardEl = zone.querySelector("#swipe-card");
       const hintSi = cardEl.querySelector(".swipe-hint.si");
       const hintNo = cardEl.querySelector(".swipe-hint.no");
+      const stampEl = cardEl.querySelector("#swipe-stamp");
       const btnSi = zone.querySelector("#btn-si");
       const btnNo = zone.querySelector("#btn-no");
       const whyBox = zone.querySelector("#swipe-why");
@@ -1090,7 +1101,13 @@
           playTone("ok", 0);
           btnSi.disabled = true;
           btnNo.disabled = true;
-          cardEl.classList.add(choice === "si" ? "fly-right" : "fly-left");
+
+          stampEl.textContent = choice === "si" ? "Sí sirve" : "No sirve";
+          stampEl.className = "swipe-stamp show " + (choice === "si" ? "ok" : "bad");
+
+          setTimeout(() => {
+            cardEl.classList.add(choice === "si" ? "fly-right" : "fly-left");
+          }, 260);
 
           whyBox.textContent = "🟢 " + card.why;
           whyBox.className = "swipe-why ok show";
@@ -1099,7 +1116,7 @@
             cardIdx++;
             if (cardIdx >= DECK.length) renderTrophy();
             else renderCard();
-          }, 700);
+          }, 950);
         } else {
           playTone("fail", 0);
           cardEl.classList.remove("shake");
@@ -1346,7 +1363,7 @@
     },
     {
       code: "N.º 04", principle: "Coherencia", title: "La diapositiva ruidosa",
-      declaration: "Un profesor prepara una diapositiva sobre el ciclo del agua. Para 'hacerla más entretenida', añade música electrónica de fondo a alto volumen y tres GIFs animados de nubes bailando que no aportan información, mientras narra el proceso científico.",
+      declaration: "Llega una queja a la oficina: un profesor preparó una diapositiva sobre el ciclo del agua y, para 'hacerla más entretenida', le metió música electrónica de fondo a alto volumen y dos GIFs animados de nubes bailando que no aportan nada, todo mientras narra el proceso científico. Tu trabajo: entrar a la consola y dejar solo lo que realmente enseña.",
       evidenceLabel: "Evidencia A-01 · Consola de la diapositiva",
       instruction: "Interviene la consola: silencia la música y elimina los elementos decorativos hasta que el ruido cognitivo esté bajo control.",
       correctNote: "El Principio de Coherencia establece que se aprende mejor cuando se excluye información extraña (sonidos, imágenes o texto irrelevantes). La música y los GIFs decorativos competían por los mismos recursos cognitivos que el contenido real.",
@@ -1354,7 +1371,7 @@
     },
     {
       code: "N.º 05", principle: "Señalización", title: "El bloque de texto sin pistas",
-      declaration: "Un párrafo extenso sobre las causas de la Revolución Industrial se presenta como texto plano, sin ningún énfasis visual, aunque contiene tres causas clave que el estudiante debe identificar para el examen.",
+      declaration: "El expediente incluye un párrafo extenso sobre las causas de la Revolución Industrial, presentado como texto plano de principio a fin. En algún punto de ese bloque están las tres causas clave que el estudiante necesita para el examen, pero nada las distingue del resto. Tu trabajo: encontrarlas y marcarlas, como haría cualquier investigador con las pistas de un caso.",
       evidenceLabel: "Evidencia A-02 · Fragmento de texto plano",
       instruction: "Haz clic sobre los fragmentos del texto que representan las tres causas clave para resaltarlas, tal como haría un investigador marcando pistas.",
       correctNote: "El Principio de Señalización propone añadir pistas visuales (negritas, colores, flechas) que guíen la atención hacia la información esencial, sin agregar contenido nuevo.",
@@ -1362,7 +1379,7 @@
     },
     {
       code: "N.º 06", principle: "Segmentación", title: "La lección sin puntos de control",
-      declaration: "Un curso en línea presenta un video de 45 minutos ininterrumpidos explicando todo el proceso de instalación de un software, sin pausas, sin puntos de control y sin posibilidad de que el estudiante avance a su propio ritmo.",
+      declaration: "Otro reporte sobre la mesa: un curso en línea publicó un video de 45 minutos explicando la instalación de un software, sin un solo corte, sin pausas y sin puntos de control — el estudiante que se atrase en el minuto 10 tiene que aguantar los otros 35 sin poder retomar a su ritmo. Tu trabajo: intervenir la cinta y trocearla en módulos que sí se puedan seguir.",
       evidenceLabel: "Evidencia A-03 · Línea de tiempo del video",
       instruction: "Haz clic dos veces sobre la cinta para cortarla y dividir el video en tres mini-módulos manejables.",
       correctNote: "El Principio de Segmentación indica que se aprende mejor cuando el contenido se presenta en segmentos manejables, permitiendo que el estudiante procese cada parte antes de avanzar y controle su propio ritmo.",
@@ -1370,7 +1387,7 @@
     },
     {
       code: "N.º 07", principle: "Contigüidad", title: "El diagrama con testigos separados",
-      declaration: "Un diseñador instruccional crea un diagrama de las partes de una célula. Todas las etiquetas de texto están agrupadas en una lista aparte, obligando al estudiante a mirar constantemente de la lista a la imagen para relacionar cada término.",
+      declaration: "Nuevo hallazgo en el expediente: un diseñador instruccional armó un diagrama de las partes de una célula, pero dejó todas las etiquetas agrupadas en una lista aparte, lejos de la imagen — el estudiante tiene que ir y venir constantemente entre la lista y el dibujo para saber qué es qué. Tu trabajo: reunir cada etiqueta con la parte que le corresponde.",
       evidenceLabel: "Evidencia A-04 · Diagrama celular sin etiquetar",
       instruction: "Arrastra cada etiqueta directamente sobre la parte de la célula que le corresponde.",
       correctNote: "El Principio de Contigüidad Espacial indica que se aprende mejor cuando el texto y las imágenes relacionadas están cerca físicamente, no separadas en listas aparte.",
@@ -1378,7 +1395,7 @@
     },
     {
       code: "N.º 08", principle: "Modalidad", title: "El testigo que compite consigo mismo",
-      declaration: "Un canal de cocina publica un video mostrando a un chef preparando una salsa, pero superpone un bloque denso de texto con tiempos exactos, cantidades y técnica mientras la demostración ocurre en la sartén, obligando al espectador a leer y observar al mismo tiempo.",
+      declaration: "Último testigo del expediente: un canal de cocina publicó un video de un chef preparando una salsa, pero le encima un bloque denso de texto con tiempos, cantidades y técnica — justo mientras ocurre la demostración en la sartén, obligando al espectador a elegir entre leer o mirar. Tu trabajo: liberar el canal visual pasando ese texto a narración.",
       evidenceLabel: "Evidencia A-05 · Fotograma del tutorial de cocina",
       instruction: "Mantén presionado el micrófono para grabar la narración del chef y sustituir el texto denso en pantalla.",
       correctNote: "El Principio de Modalidad establece que se aprende mejor combinando gráficos con narración hablada en lugar de gráficos con texto en pantalla: leer y observar compiten por el mismo canal visual, mientras que escuchar y observar usan canales distintos.",
